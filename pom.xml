@@ -96,5 +96,10 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.sparkjava</groupId>
+      <artifactId>spark-kotlin</artifactId>
+      <version>1.0.0-alpha</version>
+    </dependency>
   </dependencies>
 </project>
