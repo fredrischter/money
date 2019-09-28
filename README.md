@@ -18,9 +18,10 @@ java -jar target/minimalist-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 docker-compose up
 
-## Example request
+## Example requests
 
-http://localhost:4567/deposit?account=1&amount=1000
+curl -X POST 'http://localhost:4567/deposit?account=1&amount=1000'
+curl 'http://localhost:4567/balance?account=1'
 
 # Features
 
