@@ -4,7 +4,7 @@ import spark.Spark.*;
 import java.io.*;
 
 fun main(args: Array<String>) {
-	println("Hello World!")
+	println(File("src/main/resources/banner.txt").readText())
 
 	get("/hello") { req, res ->
 	    "Hello Spark Kotlin"
