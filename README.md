@@ -12,5 +12,11 @@ Testing minimalist approach for implementing HTTP API
 mvn clean package
 java -jar target/money-1.0-SNAPSHOT.jar
 
+# Run using docker compose
+
+docker-compose up
+
 # Example requests
+
+http://localhost:4567/hello
 
