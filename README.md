@@ -20,7 +20,7 @@ docker-compose up
 
 ## Example request
 
-http://localhost:4567/deposit?account=123&amount=1000
+http://localhost:4567/deposit?account=1&amount=1000
 
 # Features
 

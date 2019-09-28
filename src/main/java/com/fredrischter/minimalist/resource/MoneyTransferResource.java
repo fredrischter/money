@@ -46,7 +46,7 @@ public class MoneyTransferResource {
         return moneyTransferService.getBalance(account);
     }
 
-    public void deposit(String account, BigDecimal amount) {
-        moneyTransferService.deposit(account, amount);
+    public void deposit(String accountNumber, BigDecimal amount) {
+        moneyTransferService.deposit(accountNumber, amount);
     }
 }

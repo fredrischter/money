@@ -12,8 +12,8 @@ public class MoneyTransferService {
 
     AccountRepository transferRepository = new AccountRepository();
 
-    public BigDecimal getBalance(String account) throws AccountNotFoundException {
-        Optional<Account> accountEntityOp = transferRepository.findById(account);
+    public BigDecimal getBalance(String accountNumber) throws AccountNotFoundException {
+        Optional<Account> accountEntityOp = transferRepository.findByNumber(accountNumber);
         if (!accountEntityOp.isPresent()) {
             throw new AccountNotFoundException();
         }
@@ -21,8 +21,8 @@ public class MoneyTransferService {
     }
 
     public void transfer(String originAccountNumber, String destinationAccountNumber, BigDecimal amount) throws AccountNotFoundException, NotEnoughBalanceException {
-        Optional<Account> originAccountOp = transferRepository.findById(originAccountNumber);
-        Optional<Account> destinationAccountOp = transferRepository.findById(destinationAccountNumber);
+        Optional<Account> originAccountOp = transferRepository.findByNumber(originAccountNumber);
+        Optional<Account> destinationAccountOp = transferRepository.findByNumber(destinationAccountNumber);
 
         if (!originAccountOp.isPresent() || !destinationAccountOp.isPresent()) {
             throw new AccountNotFoundException();
@@ -34,23 +34,23 @@ public class MoneyTransferService {
             throw new NotEnoughBalanceException();
         }
 
-        originAccount.setBalance(originAccount.getBalance().subtract(amount));
-        destinationAccount.setBalance(destinationAccount.getBalance().add(amount));
+        BigDecimal originAccountBalance = originAccount.getBalance().subtract(amount);
+        BigDecimal destinationAccountBalance = destinationAccount.getBalance().add(amount);
 
-        transferRepository.save(originAccount);
-        transferRepository.save(destinationAccount);
+        transferRepository.updateBalance(originAccount.getNumber(), originAccountBalance);
+        transferRepository.updateBalance(destinationAccount.getNumber(), destinationAccountBalance);
     }
 
-    public void deposit(String account, BigDecimal amount) {
-        Optional<Account> accountEntityOp = transferRepository.findById(account);
+    public void deposit(String accountNumber, BigDecimal amount) {
+        Optional<Account> accountEntityOp = transferRepository.findByNumber(accountNumber);
 
         if (accountEntityOp.isPresent()) {
             Account accountEntity = accountEntityOp.get();
-            accountEntity.setBalance(accountEntity.getBalance().add(amount));
-            transferRepository.save(accountEntity);
+            BigDecimal accountEntityBalance = accountEntity.getBalance().add(amount);
+            transferRepository.updateBalance(accountEntity.getNumber(), accountEntityBalance);
         } else {
-            Account accountEntity = new Account(account,amount);
-            transferRepository.save(accountEntity);
+            Account accountEntity = new Account(accountNumber, amount);
+            transferRepository.create(accountEntity);
         }
     }
 

@@ -3,6 +3,7 @@ package com.fredrischter.minimalist.repository;
 import com.fredrischter.minimalist.model.Account;
 import com.fredrischter.minimalist.repository.exceptions.RepositoryException;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
 public class AccountRepository {
 
     public AccountRepository() {
-        execute("create table test(id int primary key, name varchar(255))");
+        execute("create table account(number varchar(255) primary key, balance decimal)");
     }
 
     public List<Account> query(String sql) {
@@ -21,8 +22,9 @@ public class AccountRepository {
             List<Account> resultList = new LinkedList();
             ResultSet resultSet = st.executeQuery(sql);
             while (resultSet.next()) {
-                String str = resultSet.getString("username");
-                Account user = new Account();
+                String number = resultSet.getString("number");
+                BigDecimal balance = resultSet.getBigDecimal("balance");
+                Account user = new Account(number, balance);
                 resultList.add(user);
             }
             st.close();
@@ -50,10 +52,19 @@ public class AccountRepository {
         return DriverManager.getConnection("jdbc:h2:mem:~minimalist", "sa", "");
     }
 
-    public Optional<Account> findById(String account) {
-        return null;
+    public Optional<Account> findByNumber(String accountNumber) {
+        List<Account> resultSets = query("select * from account where number = '"+accountNumber+"'");
+        if (resultSets.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(resultSets.iterator().next());
     }
 
-    public void save(Account originAccount) {
+    public void updateBalance(String accountNumber, BigDecimal balance) {
+        execute("update account set balance = "+balance+" where number = '"+accountNumber+"'");
+    }
+
+    public void create(Account accountEntity) {
+        execute("insert into account(number, balance) values("+accountEntity.getNumber()+","+accountEntity.getBalance()+")");
     }
 }
