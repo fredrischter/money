@@ -2,6 +2,16 @@
 
 Testing minimalist approach for implementing HTTP API
 
+```
+   ______________   
+ / \             \.  
+ \_ |            |.  
+    | Minimalist |.  
+    |    Stuff   |.  
+    |  __________|__ 
+    \_/dc__________/.
+```
+
 # Setup
 
 ## Pre requisites
@@ -11,18 +21,20 @@ Testing minimalist approach for implementing HTTP API
 
 ## Build and run
 
+```
 mvn clean package
 java -jar target/minimalist-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
 
 ## Run using docker compose
-
+```
 docker-compose up
-
+```
 ## Example requests
-
+```
 curl -X POST 'http://localhost:4567/deposit?account=1&amount=1000'
 curl 'http://localhost:4567/balance?account=1'
-
+```
 # Features
 
 ## Depositing
