@@ -10,7 +10,7 @@ Testing minimalist approach for implementing HTTP API
 # Build and run
 
 mvn clean package
-java -jar target/money-1.0-SNAPSHOT.jar
+java -jar target/minimalist-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 # Run using docker compose
 
