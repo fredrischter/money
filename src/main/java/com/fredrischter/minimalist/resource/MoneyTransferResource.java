@@ -30,7 +30,7 @@ public class MoneyTransferResource {
         });
 
         exception(NotEnoughBalanceException.class, (exception, request, response) -> {
-            response.status(401);
+            response.status(403);
         });
 
         exception(AccountNotFoundException.class, (exception, request, response) -> {
