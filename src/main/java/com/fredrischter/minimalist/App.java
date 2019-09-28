@@ -10,7 +10,7 @@ public class App {
 
 		new MoneyTransferResource();
 
-		System.out.println("Try http://localhost:4567/deposit?account=1&amount=1000");
+		System.out.println("Try curl -X POST 'http://localhost:4567/deposit?account=1&amount=1000'");
 	}
 	
 	public static void main(String []args) throws Exception {
