@@ -1,14 +1,13 @@
 package com.fredrischter.minimalist;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import org.apache.commons.io.IOUtils;
 
 import static spark.Spark.get;
 
 public class App {
 
 	public App() throws Exception {
-		System.out.println(new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("banner.txt").toURI()))));
+		System.out.println(new String(IOUtils.toByteArray(getClass().getResourceAsStream("/banner.txt"))));
 
 		get("/hello", (req, res) -> "Testing");
 
