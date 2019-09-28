@@ -4,12 +4,11 @@ Testing minimalist approach for implementing HTTP API
 
 ```
    ______________   
- / \             \.  
- \_ |            |.  
-    | Minimalist |.  
-    |    Stuff   |.  
-    |  __________|__ 
-    \_/dc__________/.
+ / \             \
+ \_ | Minimalist |
+    |    Stuff   |
+    |  __________|_
+    \_/dc__________/
 ```
 
 # Setup
