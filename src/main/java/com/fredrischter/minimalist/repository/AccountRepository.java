@@ -12,7 +12,11 @@ import java.util.Optional;
 public class AccountRepository {
 
     public AccountRepository() {
-        execute("create table account(number varchar(255) primary key, balance decimal)");
+        execute("create table if not exists account(number varchar(255) primary key, balance decimal);");
+    }
+
+    public static void drop() {
+        execute("drop table account;");
     }
 
     public List<Account> query(String sql) {
@@ -35,11 +39,11 @@ public class AccountRepository {
         }
     }
 
-    public void execute(String sql) {
+    public static void execute(String sql) {
         try {
             Connection conn = createConnection();
             Statement st = conn.createStatement();
-            st.executeUpdate(sql);
+            st.execute(sql);
             st.close();
             conn.close();
         } catch (Exception e) {
@@ -47,9 +51,9 @@ public class AccountRepository {
         }
     }
 
-    private Connection createConnection() throws ClassNotFoundException, SQLException {
+    private static Connection createConnection() throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
-        return DriverManager.getConnection("jdbc:h2:mem:~minimalist", "sa", "");
+        return DriverManager.getConnection("jdbc:h2:mem:~minimalist;DB_CLOSE_DELAY=-1", "sa", "");
     }
 
     public Optional<Account> findByNumber(String accountNumber) {

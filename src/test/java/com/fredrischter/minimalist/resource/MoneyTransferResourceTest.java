@@ -9,15 +9,18 @@ public class MoneyTransferResourceTest {
 
 	private static final int port = 4567;
 	private static final int OK = 200;
-	private static final int CREATED = 201;
 	private static final int NOT_FOUND = 404;
+
+	static {
+		new MoneyTransferResource();
+	}
 
 	@Test
 	public void httpRequestTestGetBalance() {
 		given()
 			.port(port)
 		.when()
-			.get("/balance?account=123")
+			.get("/balance?account=123456")
 		.then().statusCode(NOT_FOUND);
 	}
 	
@@ -27,7 +30,7 @@ public class MoneyTransferResourceTest {
 			.port(port)
 		.when()
 			.post("/deposit?account=123&amount=1000")
-		.then().statusCode(CREATED);
+		.then().statusCode(OK);
 	}
 	
 	@Test
@@ -36,13 +39,13 @@ public class MoneyTransferResourceTest {
 			.port(port)
 		.when()
 			.post("/deposit?account=111&amount=1000")
-		.then().statusCode(CREATED);
+		.then().statusCode(OK);
 
 		given()
 			.port(port)
 		.when()
 			.post("/deposit?account=222&amount=1000")
-		.then().statusCode(CREATED);
+		.then().statusCode(OK);
 
 		given()
 			.port(port)
@@ -56,15 +59,15 @@ public class MoneyTransferResourceTest {
 		given()
 			.port(port)
 		.when()
-			.post("/deposit?account=111&amount=1000")
-		.then().statusCode(CREATED);
+			.post("/deposit?account=333&amount=1000")
+		.then().statusCode(OK);
 
 		given()
 			.port(port)
 		.when()
-			.get("/balance?account=111")
+			.get("/balance?account=333")
 		.then()
-			.body(IsEqual.equalTo("1000.00"));
+			.body(IsEqual.equalTo("1000"));
 	}
 	
 }

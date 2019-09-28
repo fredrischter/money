@@ -1,12 +1,13 @@
-package com.bank.moneytransfer.service;
+package com.fredrischter.minimalist.service;
 
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
-import com.fredrischter.minimalist.service.MoneyTransferService;
+import com.fredrischter.minimalist.repository.AccountRepository;
 import com.fredrischter.minimalist.service.exceptions.AccountNotFoundException;
 import com.fredrischter.minimalist.service.exceptions.NotEnoughBalanceException;
+import org.junit.Before;
 import org.junit.Test;
 
 public class MoneyTransferServiceTest {
@@ -15,7 +16,13 @@ public class MoneyTransferServiceTest {
 	private static final String ACCOUNT_A = "11111";
 	private static final String ACCOUNT_B = "22222";
 
-	MoneyTransferService moneyTransferService = new MoneyTransferService();
+	MoneyTransferService moneyTransferService;
+
+	@Before
+	public void setup() {
+		AccountRepository.drop();
+		moneyTransferService = new MoneyTransferService();
+	}
 
 	@Test(expected = AccountNotFoundException.class)
 	public void accountNotFoundTest() throws AccountNotFoundException {
@@ -61,8 +68,8 @@ public class MoneyTransferServiceTest {
 		moneyTransferService.transfer(ACCOUNT_A, ACCOUNT_B, new BigDecimal(30));
 		
 		// Then
-		assertEquals(new BigDecimal(130).setScale(2), moneyTransferService.getBalance(ACCOUNT_B));
-		assertEquals(new BigDecimal(70).setScale(2), moneyTransferService.getBalance(ACCOUNT_A));
+		assertEquals(new BigDecimal(130), moneyTransferService.getBalance(ACCOUNT_B));
+		assertEquals(new BigDecimal(70), moneyTransferService.getBalance(ACCOUNT_A));
 	}
 	
 }

@@ -13,20 +13,18 @@ public class MoneyTransferResource {
     MoneyTransferService moneyTransferService = new MoneyTransferService();
 
     public MoneyTransferResource() {
-
-        get("/transfer", (req, res) -> {
+        post("/transfer", (req, res) -> {
             transfer(req.queryParams("originAccount"), req.queryParams("destinationAccount"), new BigDecimal(req.queryParams("amount")));
-            return "";
+            return "OK";
         });
 
         get("/balance", (req, res) -> {
-            balance(req.queryParams("account"));
-            return "";
+            return balance(req.queryParams("account"));
         });
 
-        get("/deposit", (req, res) -> {
+        post("/deposit", (req, res) -> {
             deposit(req.queryParams("account"), new BigDecimal(req.queryParams("amount")));
-            return "";
+            return "OK";
         });
 
         exception(NotEnoughBalanceException.class, (exception, request, response) -> {
@@ -48,5 +46,9 @@ public class MoneyTransferResource {
 
     public void deposit(String accountNumber, BigDecimal amount) {
         moneyTransferService.deposit(accountNumber, amount);
+    }
+
+    public void drop() {
+        stop();
     }
 }
