@@ -16,7 +16,7 @@ public class AccountRepository {
     }
 
     public static void drop() {
-        execute("drop table account;");
+        execute("drop table if exists account;");
     }
 
     public List<Account> query(String sql) {
